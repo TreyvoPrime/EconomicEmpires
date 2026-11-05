@@ -1,18 +1,10 @@
 public class Events {
-    private int ID;
     private String name;
     private String descripton;
     private boolean isActive;
 
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
+  
     public String getName() {
         return name;
     }
