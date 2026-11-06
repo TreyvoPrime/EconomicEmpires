@@ -12,7 +12,7 @@ public class Countries {
         this.region = region; 
     }
 
-    public String getName() {
+    public String getCountriesName() {
         return name;
     }
 
@@ -36,7 +36,7 @@ public class Countries {
         this.GDP = GDP;
     }
 
-    public List<String> getRegions() {
+    public String getRegions() {
         return region;
     }
 
