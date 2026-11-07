@@ -4,14 +4,14 @@ public class Countries {
     private String name;
     private int population;
     private double GDP;
-    private double treasury; 
+    private double treasury;
     private String region;
     Countries(String name, int population, double GDP, double treasury, String region) {
         this.name = name;
         this.population = population;
         this.GDP = GDP;
         this.treasury = treasury;
-        this.region = region; 
+        this.region = region;
     }
 
     public String getCountriesName() {
@@ -45,10 +45,10 @@ public class Countries {
     public void setRegions(List<String> regions) {
         this.region = region;
     }
-   
+
     public double getTreasury() {
-         return treasury;
-    } 
+        return treasury;
+    }
 
     public String getName() {
         return name;
@@ -56,5 +56,13 @@ public class Countries {
 
     public void setTreasury(double treasury) {
         this.treasury = treasury;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 }
