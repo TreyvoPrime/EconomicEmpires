@@ -14,6 +14,7 @@ public class Main {
         ArrayList<Events> events = new ArrayList<>();
         ArrayList<Buildings> buildings = new ArrayList<>();
         ArrayList<Resources> resources = new ArrayList<>();
+        ArrayList<Infrastructure> infrastructures = new ArrayList<>();
 
         //add countries to the countries ArrayList:
         countries.add(new Countries("USA", 33000, 25000.0, 25000.0, "North America"));
@@ -30,6 +31,10 @@ public class Main {
         resources.add(new Resources("Steel", 650.0, 6000.0));
         resources.add(new Resources("Oil", 800.0, 8000.0));
         resources.add(new Resources("Electronics", 1100.0, 12000.0));
+        //add infrastructure to infrastructures ArrayList
+        infrastructures.add(new Infrastructure("Road", 2000.0, 1.0));
+        infrastructures.add(new Infrastructure("Port", 2000.0, 1.0));
+        Infrastructure road = infrastructures.get(0);
         while (gameStartPhase) {
             System.out.println("Start the game Y/N:");
             startDecision = input.nextLine().toUpperCase().trim();
@@ -118,7 +123,6 @@ public class Main {
 
                                 System.out.print("🌽How many farms would you like to build:");
                                 int farmsBuilding = input.nextInt();
-                                currentTerm++;
                                 //loop through to get build farms, and cap at the maximum the player can purchase
                                 for (int a= 0; a < farmsBuilding; a++) {
                                     if (country.getTreasury() >= farm.getCost()) {
@@ -151,12 +155,53 @@ public class Main {
                                         break;
                                     }
                                 }
+                            } else {
+                                System.out.println("Invalid choice, try again");
                             }
                         }
-                    } else if (decisionChoice==2) {
-                        System.out.println(country.getCountriesName() + " Trade efficientcy:" + tradeEfficiency);
-                        System.out.println(country.getCountriesName() + "Martime trade access");
-                        System.out.println("--Manage Infrastructure--");
+
+                    } //Infrastructure control
+                    else if (decisionChoice==2) {
+                        boolean infrastructureManaged = true;
+                        //management panel for infrastructure
+                        while (infrastructureManaged) {
+                            System.out.println(country.getCountriesName() + " Trade efficientcy:" + tradeEfficiency);
+                            System.out.println(country.getCountriesName() + "Martime trade access");
+                            System.out.println("--Manage Infrastructure--");
+                            System.out.println("0. Back to country control panel");
+                            System.out.println("1. 🛣️ Road investments");
+                            System.out.println("2. 🛳️ port investments");
+                            System.out.println("Choose a option.");
+                            int infrastructureChoice = input.nextInt();
+                            if (infrastructureChoice==0) {
+                                System.out.println("Exited infrastructure management");
+                                infrastructureManaged=false;
+                                //road investments
+                            } else if (infrastructureChoice==1) {
+                                System.out.println("--Road Investments--");
+                                System.out.println("Every road built = +1% trade efficientcy");
+                                System.out.println("Road cost - 🪙2000");
+                                System.out.println("How many roads would you like to build:");
+                                int roadsBuilding = input.nextInt();
+                                int roadsBuilt = 0;
+                                for (int r= 0; r < roadsBuilding; r++) {
+                                    if (country.getTreasury() >= road.getCost()) {
+                                        country.setTreasury(country.getTreasury() - road.getCost());
+
+                                        roadsBuilt++;
+                                        tradeEfficiency++;
+                                        System.out.println("🛣️Roads built:" + roadsBuilt);
+                                    } else {
+                                        System.out.println("Not enough money in the treasury to build another road!");
+                                        break;
+                                    }
+                                }
+                            } else if (infrastructureChoice==2) {
+                                System.out.println("--Port Investments--");
+
+                            }
+
+                        }
 
                     }
 
