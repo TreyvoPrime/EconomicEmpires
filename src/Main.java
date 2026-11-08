@@ -15,10 +15,19 @@ public class Main {
         ArrayList<Buildings> buildings = new ArrayList<>();
         ArrayList<Resources> resources = new ArrayList<>();
         ArrayList<Infrastructure> infrastructures = new ArrayList<>();
+        ArrayList<String> northAmericaOceans = new ArrayList<>();
 
-        //add countries to the countries ArrayList:
-        countries.add(new Countries("USA", 33000, 25000.0, 25000.0, "North America"));
         System.out.println("Welcome to Economic Empires");
+
+        //add oceans to the regions ArrayList;
+        northAmericaOceans.add("Atlantic Ocean");
+        northAmericaOceans.add("Pacific Ocean");
+        northAmericaOceans.add("Arctic Ocean");
+        Regions northAmerica = new Regions("North America", northAmericaOceans);
+
+        countries.add(new Countries("USA", 33000, 25000.0, 25000.0, northAmerica));
+        //add countries to the countries ArrayList:
+        countries.add(new Countries("USA", 33000, 25000.0, 25000.0, northAmerica));
         //add Buildings to the buildings ArrayList:
         buildings.add(new Buildings("Farm", 3000, "famine", "Farms produce crops and maximum supported population + a additional population growth benefit."));
         Buildings farm = buildings.get(0);
@@ -35,6 +44,8 @@ public class Main {
         infrastructures.add(new Infrastructure("Road", 2000.0, 1.0));
         infrastructures.add(new Infrastructure("Port", 2000.0, 1.0));
         Infrastructure road = infrastructures.get(0);
+        Infrastructure port = infrastructures.get(1);
+
         while (gameStartPhase) {
             System.out.println("Start the game Y/N:");
             startDecision = input.nextLine().toUpperCase().trim();
@@ -63,7 +74,7 @@ public class Main {
         boolean countriesSelection = true;
         boolean countyBeenSelected = false;
         boolean gameRunning = true;
-
+        ArrayList<String> oceans = country.getRegion().getOceans(); //Arraylist declared to get the oceans that border a country
         //country selected error checking and output
         while (countriesSelection) {
             try {
@@ -87,7 +98,7 @@ public class Main {
                 double tradeEfficiency = 0.0;
                 System.out.println("Welcome Advisor, you're now in control of the economy of " + country.getCountriesName());
                 System.out.println("Your starting Annual GDP is " + country.getGDP());
-                System.out.println("Your region is " + country.getRegions());
+                System.out.println("Your region is " + country.getRegion());
 
                 System.out.println("--Country Control Panel--");
                 System.out.println("1. 🔨Buildings");
@@ -165,8 +176,12 @@ public class Main {
                         boolean infrastructureManaged = true;
                         //management panel for infrastructure
                         while (infrastructureManaged) {
+                            int roadsBuilt = 0;
+                            System.out.println("Roads built " + roadsBuilt);
                             System.out.println(country.getCountriesName() + " Trade efficientcy:" + tradeEfficiency);
                             System.out.println(country.getCountriesName() + "Martime trade access");
+                            System.out.println("Your region is " + country.getRegion().getName());
+
                             System.out.println("--Manage Infrastructure--");
                             System.out.println("0. Back to country control panel");
                             System.out.println("1. 🛣️ Road investments");
@@ -183,14 +198,14 @@ public class Main {
                                 System.out.println("Road cost - 🪙2000");
                                 System.out.println("How many roads would you like to build:");
                                 int roadsBuilding = input.nextInt();
-                                int roadsBuilt = 0;
+                                //loop to build the amount of roads requested and makes sure the player has enough money to build the requestesd amount of roads.
                                 for (int r= 0; r < roadsBuilding; r++) {
                                     if (country.getTreasury() >= road.getCost()) {
                                         country.setTreasury(country.getTreasury() - road.getCost());
 
                                         roadsBuilt++;
                                         tradeEfficiency++;
-                                        System.out.println("🛣️Roads built:" + roadsBuilt);
+                                        System.out.println("🛣️built +:" + roadsBuilt + "roads");
                                     } else {
                                         System.out.println("Not enough money in the treasury to build another road!");
                                         break;
@@ -198,6 +213,21 @@ public class Main {
                                 }
                             } else if (infrastructureChoice==2) {
                                 System.out.println("--Port Investments--");
+                                System.out.println("Building a port, adjacent to an ocean your country borders, gives you access to international markets that borders the specific ocean");
+                                System.out.println("Port building cost - 🪙20000");
+                                System.out.println("The oceans" + country.getName() + "borders");
+                                for (int i = 0; i < oceans.size(); i++) {
+                                    System.out.println(i + " " + oceans.get(i));
+                                }
+                                System.out.print("Which ocean to build port on:");
+                                int oceanDecided = input.nextInt();
+                                if (country.getTreasury() >= port.getCost()) {
+                                    if (oceanDecided==0) {
+                                        System.out.println("Successfully built port on " + oceans.get(oceanDecided));
+                                        boolean OceanBuiltOnAtlantic=true;
+                                    }
+                                    System.out.println("Successfully built port on " + oceans.get(oceanDecided));
+                                }
 
                             }
 
