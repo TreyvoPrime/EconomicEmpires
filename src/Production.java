@@ -3,7 +3,8 @@ public class Production {
     private double cost;
     private String effect;
     private String information;
-    Production(String name, double cost, String effect, String information) {
+    private int productionSlots;
+    Production(String name, double cost, String effect, String information, int productionSlots) {
         this.name = name;
         this.cost = cost;
         this.effect = effect;
@@ -41,4 +42,13 @@ public class Production {
     public void setInformation(String information) {
         this.information = information;
     }
+
+    public int getProductionSlots() {
+        return productionSlots;
+    }
+
+    public void setProductionSlots(int productionSlots) {
+        this.productionSlots = productionSlots;
+    }
+
 }

@@ -16,8 +16,9 @@ public class Main {
         ArrayList<Buildings> buildings = new ArrayList<>();
         ArrayList<Resources> resources = new ArrayList<>();
         ArrayList<Infrastructure> infrastructures = new ArrayList<>();
+        ArrayList<Production> productions = new ArrayList<>();
         ArrayList<String> northAmericaOceans = new ArrayList<>();
-
+        
         System.out.println("Welcome to Economic Empires");
 
         //add oceans to the regions ArrayList;
@@ -32,6 +33,9 @@ public class Main {
         //add Buildings to the buildings ArrayList:
         buildings.add(new Buildings("Farm", 3000, "famine", "Farms produce crops and maximum supported population + a additional population growth benefit."));
         Buildings farm = buildings.get(0);
+        //add production buildings to the productions ArrayList;
+        productions.add(new Production("Factory", 6000, "explosion", "Factories produce resources that fuel your economy",0));
+        Production factory = productions.get(0);
         //add Resources to the resources ArrayList:
         resources.add(new Resources("Wood", 150.0, 1000.0));
         resources.add(new Resources("Food", 200.0, 1500.0));
@@ -256,8 +260,18 @@ public class Main {
                         }
 
                     } else if (decisionChoice==3) {
+                        
                         System.out.println("🛢️--Managing Production--🛢️");
-                        System.out.println("Max factory production" + maxProductionSpace);
+                        System.out.println("Max factory production " + factory.getProductionSlots());
+                        System.out.println("Select a resource to manage production");
+                        //display all resources cost, name, revenue.
+                        for (int r=0; r < resources.size(); r++) {
+                            System.out.println(r + " " +  resources.get(r).getName() + " cost: " +  resources.get(r).getCost() + "💰 "+ " base annual revenue: " + resources.get(r).getRevenue() + " 💵 ");
+                        }
+                        int resourceDecided = input.nextInt();
+                        if (resourceDecided==1) {
+                            System.out.println("You currently have" + "slots avalible");
+                        }
                     }
 
 
