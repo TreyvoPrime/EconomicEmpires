@@ -221,13 +221,23 @@ public class Main {
                                 }
                                 System.out.print("Which ocean to build port on:");
                                 int oceanDecided = input.nextInt();
-                                if (country.getTreasury() >= port.getCost()) {
-                                    if (oceanDecided==0) {
-                                        System.out.println("Successfully built port on " + oceans.get(oceanDecided));
-                                        boolean OceanBuiltOnAtlantic=true;
+                                if (oceanDecided <= oceans.size()) {
+                                    if (country.getTreasury() >= port.getCost()) {
+                                        for (int i = 0; i < oceans.size(); i++) {
+                                            System.out.println(oceans.get(i));
+                                        }
+                                        if (oceanDecided==0) {
+                                            System.out.println("Successfully built port on " + oceans.get(oceanDecided));
+                                            boolean oceanBuiltOnIndexZero=true;
+                                        } else if (oceanDecided==1) {
+                                            System.out.println("Successfully built port on " + oceans.get(oceanDecided));
+                                            boolean oceanBuiltOnIndexOne=true;
+                                        }
                                     }
-                                    System.out.println("Successfully built port on " + oceans.get(oceanDecided));
+                                } else {
+                                    System.out.println("Invalid Index selected, try again:");
                                 }
+
 
                             }
 
