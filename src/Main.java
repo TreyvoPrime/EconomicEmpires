@@ -9,6 +9,7 @@ public class Main {
         boolean isRunning;
         String startDecision;
         boolean gameStartPhase = true;
+        int maxProductionSpace=0;
         Scanner input = new Scanner(System.in);
         ArrayList<Countries> countries = new ArrayList<>();
         ArrayList<Events> events = new ArrayList<>();
@@ -94,12 +95,12 @@ public class Main {
         if (countyBeenSelected) {
             while (gameRunning) {
                 //country control panel used as the base menu throughout the game
+                ArrayList<Boolean> oceanBoolList = new ArrayList<>(); //Boolean list to mark true/false if a port is built                     on a specific ocean's index
                 int totalBuildings = 0;
                 double tradeEfficiency = 0.0;
                 System.out.println("Welcome Advisor, you're now in control of the economy of " + country.getCountriesName());
-                System.out.println("Your starting Annual GDP is " + country.getGDP());
-                System.out.println("Your region is " + country.getRegion());
-
+                System.out.println("💵Annual GDP " + country.getGDP());
+                System.out.println("🌐Region " + country.getRegion().getName());
                 System.out.println("--Country Control Panel--");
                 System.out.println("1. 🔨Buildings");
                 System.out.println("2. 🛣️Infrastructure");
@@ -110,6 +111,7 @@ public class Main {
                 System.out.println("7. 🛞Next Turn");
                 System.out.println("Choose a option");
                 System.out.println("The current term is term " + currentTerm);
+                
                 try {
                     int decisionChoice = input.nextInt();
                     if (decisionChoice==1) {
@@ -173,13 +175,18 @@ public class Main {
 
                     } //Infrastructure control
                     else if (decisionChoice==2) {
+
                         boolean infrastructureManaged = true;
                         //management panel for infrastructure
                         while (infrastructureManaged) {
                             int roadsBuilt = 0;
                             System.out.println("Roads built " + roadsBuilt);
                             System.out.println(country.getCountriesName() + " Trade efficientcy:" + tradeEfficiency);
-                            System.out.println(country.getCountriesName() + "Martime trade access");
+                            System.out.println(country.getCountriesName() + "--Martime trade access--");
+                            for (int e = 0; e < oceans.size(); e++) {
+                                System.out.println(e + " " + oceans.get(e));
+                            }
+
                             System.out.println("Your region is " + country.getRegion().getName());
 
                             System.out.println("--Manage Infrastructure--");
@@ -198,41 +205,46 @@ public class Main {
                                 System.out.println("Road cost - 🪙2000");
                                 System.out.println("How many roads would you like to build:");
                                 int roadsBuilding = input.nextInt();
-                                //loop to build the amount of roads requested and makes sure the player has enough money to build the requestesd amount of roads.
+                                //loop to build the amount of roads requested and makes sure the player has enough money to                                 build the requestesd amount of roads.
                                 for (int r= 0; r < roadsBuilding; r++) {
                                     if (country.getTreasury() >= road.getCost()) {
                                         country.setTreasury(country.getTreasury() - road.getCost());
 
                                         roadsBuilt++;
                                         tradeEfficiency++;
-                                        System.out.println("🛣️built +:" + roadsBuilt + "roads");
-                                    } else {
+                                    }
+                                    else {
                                         System.out.println("Not enough money in the treasury to build another road!");
                                         break;
                                     }
                                 }
+                               System.out.println("🛣️built +:" + roadsBuilt + " roads");
                             } else if (infrastructureChoice==2) {
                                 System.out.println("--Port Investments--");
-                                System.out.println("Building a port, adjacent to an ocean your country borders, gives you access to international markets that borders the specific ocean");
+                                System.out.println("Building a port, adjacent to an ocean your country borders, gives you access to international markets that borders the specific ocean.");
                                 System.out.println("Port building cost - 🪙20000");
                                 System.out.println("The oceans" + country.getName() + "borders");
                                 for (int i = 0; i < oceans.size(); i++) {
-                                    System.out.println(i + " " + oceans.get(i));
+                                    System.out.println(i + "⚓ " + oceans.get(i));
                                 }
-                                System.out.print("Which ocean to build port on:");
+                                System.out.print("What ocean to build port on:");
+                                //the index of the oceanDecided
                                 int oceanDecided = input.nextInt();
                                 if (oceanDecided <= oceans.size()) {
+                                    //check to see if player's country has enough treasury.
                                     if (country.getTreasury() >= port.getCost()) {
-                                        for (int i = 0; i < oceans.size(); i++) {
-                                            System.out.println(oceans.get(i));
+                                        //make sure the ocean decided is in 
+                                        country.setTreasury(country.getTreasury() - port.getCost());
+                                        if (oceanDecided >= 0 && oceanDecided < oceanBoolList.size()) {
+                                            //set the specific index of the ocean decided, boolean List to true
+                                            oceanBoolList.set(oceanDecided, true);
+                                        } else {
+                                            System.out.println("Invalid port index");
                                         }
-                                        if (oceanDecided==0) {
-                                            System.out.println("Successfully built port on " + oceans.get(oceanDecided));
-                                            boolean oceanBuiltOnIndexZero=true;
-                                        } else if (oceanDecided==1) {
-                                            System.out.println("Successfully built port on " + oceans.get(oceanDecided));
-                                            boolean oceanBuiltOnIndexOne=true;
-                                        }
+                                        System.out.println("⚓Successfully built port on⚓ " + oceans.get(oceanDecided));
+
+                                    } else {
+                                        System.out.println("❌Not enough money in the treasury");
                                     }
                                 } else {
                                     System.out.println("Invalid Index selected, try again:");
@@ -243,6 +255,9 @@ public class Main {
 
                         }
 
+                    } else if (decisionChoice==3) {
+                        System.out.println("🛢️--Managing Production--🛢️");
+                        System.out.println("Max factory production" + maxProductionSpace);
                     }
 
 
