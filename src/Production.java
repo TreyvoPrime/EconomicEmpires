@@ -47,8 +47,8 @@ public class Production {
         return productionSlots;
     }
 
-    public void setProductionSlots(int productionSlots) {
-        this.productionSlots = productionSlots;
+    public int setProductionSlots(int productionSlots) {
+        return  productionSlots;
     }
 
 }

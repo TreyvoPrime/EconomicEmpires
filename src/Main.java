@@ -18,7 +18,7 @@ public class Main {
         ArrayList<Infrastructure> infrastructures = new ArrayList<>();
         ArrayList<Production> productions = new ArrayList<>();
         ArrayList<String> northAmericaOceans = new ArrayList<>();
-        
+
         System.out.println("Welcome to Economic Empires");
 
         //add oceans to the regions ArrayList;
@@ -29,22 +29,30 @@ public class Main {
 
         countries.add(new Countries("USA", 33000, 25000.0, 25000.0, northAmerica));
         //add countries to the countries ArrayList:
-        countries.add(new Countries("USA", 33000, 25000.0, 25000.0, northAmerica));
+        countries.add(new Countries("Mexico", 26000, 25000.0, 25000.0, northAmerica));
         //add Buildings to the buildings ArrayList:
         buildings.add(new Buildings("Farm", 3000, "famine", "Farms produce crops and maximum supported population + a additional population growth benefit."));
         Buildings farm = buildings.get(0);
         //add production buildings to the productions ArrayList;
-        productions.add(new Production("Factory", 6000, "explosion", "Factories produce resources that fuel your economy",0));
+        productions.add(new Production("Factory", 6000, "explosion", "Factories produce resources that fuel your economy", 0));
         Production factory = productions.get(0);
         //add Resources to the resources ArrayList:
-        resources.add(new Resources("Wood", 150.0, 1000.0));
-        resources.add(new Resources("Food", 200.0, 1500.0));
-        resources.add(new Resources("Stone", 250.0, 2000.0));
-        resources.add(new Resources("Coal", 350.0, 3000.0));
-        resources.add(new Resources("Iron", 450.0, 4000.0));
-        resources.add(new Resources("Steel", 650.0, 6000.0));
-        resources.add(new Resources("Oil", 800.0, 8000.0));
-        resources.add(new Resources("Electronics", 1100.0, 12000.0));
+        resources.add(new Resources("Wood", 150.0, 1000.0, 0));
+        resources.add(new Resources("Textiles", 200.0, 1500.0, 0));
+        resources.add(new Resources("Stone", 250.0, 2000.0, 0));
+        resources.add(new Resources("Coal", 350.0, 3000.0, 0));
+        resources.add(new Resources("Iron", 450.0, 4000.0, 0));
+        resources.add(new Resources("Steel", 650.0, 6000.0, 0));
+        resources.add(new Resources("Oil", 800.0, 8000.0, 0));
+        resources.add(new Resources("Electronics", 1100.0, 12000.0, 0));
+        Resources wood = resources.get(0);
+        Resources textiles = resources.get(1);
+        Resources stone = resources.get(2);
+        Resources coal = resources.get(3);
+        Resources iron = resources.get(4);
+        Resources steel = resources.get(5);
+        Resources oil = resources.get(6);
+        Resources electronics = resources.get(7);
         //add infrastructure to infrastructures ArrayList
         infrastructures.add(new Infrastructure("Road", 2000.0, 1.0));
         infrastructures.add(new Infrastructure("Port", 2000.0, 1.0));
@@ -94,15 +102,15 @@ public class Main {
             }
 
         }
-
-
+        int farmsBuilt=0;
+        int factoriesBuilt=0;
         if (countyBeenSelected) {
+            System.out.println("Welcome Advisor, you're now in control of the economy of " + country.getCountriesName());
             while (gameRunning) {
                 //country control panel used as the base menu throughout the game
                 ArrayList<Boolean> oceanBoolList = new ArrayList<>(); //Boolean list to mark true/false if a port is built                     on a specific ocean's index
                 int totalBuildings = 0;
                 double tradeEfficiency = 0.0;
-                System.out.println("Welcome Advisor, you're now in control of the economy of " + country.getCountriesName());
                 System.out.println("💵Annual GDP " + country.getGDP());
                 System.out.println("🌐Region " + country.getRegion().getName());
                 System.out.println("--Country Control Panel--");
@@ -115,14 +123,14 @@ public class Main {
                 System.out.println("7. 🛞Next Turn");
                 System.out.println("Choose a option");
                 System.out.println("The current term is term " + currentTerm);
-                
+
                 try {
                     int decisionChoice = input.nextInt();
                     if (decisionChoice==1) {
                         boolean isBuilding = true;
                         while (isBuilding) {
                             //building control panel
-                            System.out.println(country.getName() + " currently has " + totalBuildings + " buildings");
+                            System.out.println(country.getName() + " currently has " + factoriesBuilt + " factories and " + farmsBuilt + " farms");
                             System.out.println("Current Treasury: " + country.getTreasury());
                             System.out.println("--Managing Buildings--");
                             System.out.println("0. Back to the country control panel");
@@ -130,8 +138,7 @@ public class Main {
                             System.out.println("2. 🏭Factory - 6000");
                             System.out.println("Choose a option.");
                             int buildingChoice = input.nextInt();
-                            int farmsBuilt = 0;
-                            int factoriesBuilt = 0;
+
                             if (buildingChoice==0) {
                                 System.out.println("Exited building management");
                                 isBuilding=false;
@@ -161,16 +168,19 @@ public class Main {
                                 //loop through to get build factories, and cap at the maximum the player can purchase
 
                                 for (int f= 0; f < factoriesBuilding; f++) {
-                                    if (country.getTreasury() >= farm.getCost()) {
-                                        country.setTreasury(country.getTreasury() - farm.getCost());
+                                    if (country.getTreasury() >= factory.getCost()) {
+                                        country.setTreasury(country.getTreasury() - factory.getCost());
 
                                         factoriesBuilt++;
                                         totalBuildings++;
-                                        System.out.println("🏭Factories built:" + farmsBuilt);
+                                        maxProductionSpace++;
+                                        factory.setProductionSlots(maxProductionSpace);
+                                        System.out.println("🏭Factories built: " + factoriesBuilt);
                                     } else {
                                         System.out.println("Not enough money in the treasury to build another factory!");
                                         break;
                                     }
+                                    maxProductionSpace = factory.setProductionSlots(factory.getProductionSlots() + factoriesBuilt);
                                 }
                             } else {
                                 System.out.println("Invalid choice, try again");
@@ -222,7 +232,7 @@ public class Main {
                                         break;
                                     }
                                 }
-                               System.out.println("🛣️built +:" + roadsBuilt + " roads");
+                                System.out.println("🛣️built +:" + roadsBuilt + " roads");
                             } else if (infrastructureChoice==2) {
                                 System.out.println("--Port Investments--");
                                 System.out.println("Building a port, adjacent to an ocean your country borders, gives you access to international markets that borders the specific ocean.");
@@ -237,7 +247,7 @@ public class Main {
                                 if (oceanDecided <= oceans.size()) {
                                     //check to see if player's country has enough treasury.
                                     if (country.getTreasury() >= port.getCost()) {
-                                        //make sure the ocean decided is in 
+                                        //make sure the ocean decided is in
                                         country.setTreasury(country.getTreasury() - port.getCost());
                                         if (oceanDecided >= 0 && oceanDecided < oceanBoolList.size()) {
                                             //set the specific index of the ocean decided, boolean List to true
@@ -260,20 +270,184 @@ public class Main {
                         }
 
                     } else if (decisionChoice==3) {
-                        
+
                         System.out.println("🛢️--Managing Production--🛢️");
-                        System.out.println("Max factory production " + factory.getProductionSlots());
-                        System.out.println("Select a resource to manage production");
+                        System.out.println("Max factory production " + maxProductionSpace);
                         //display all resources cost, name, revenue.
+                        for (int p=0; p < )
                         for (int r=0; r < resources.size(); r++) {
-                            System.out.println(r + " " +  resources.get(r).getName() + " cost: " +  resources.get(r).getCost() + "💰 "+ " base annual revenue: " + resources.get(r).getRevenue() + " 💵 ");
+                            System.out.println(r + " " + resources.get(r).getName() + " cost: " + resources.get(r).getCost() + " base annual revenue: " + resources.get(r).getRevenue() + " 💵 ");
                         }
+                        System.out.println("Select a resource to manage production");
                         int resourceDecided = input.nextInt();
-                        if (resourceDecided==1) {
-                            System.out.println("You currently have" + "slots avalible");
+                        int productionDesired;
+                        if (resourceDecided == 0) {
+                            System.out.println("Allocate how much " + resources.get(0).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(0).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                wood.setProductionDesired(wood.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided== 1) {
+                            System.out.println("Allocate how much " + resources.get(1).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(1).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                textiles.setProductionDesired(textiles.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==2) {
+                            System.out.println("Allocate how much " + resources.get(2).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(2).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                stone.setProductionDesired(stone.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==3) {
+                            System.out.println("Allocate how much " + resources.get(3).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(3).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                coal.setProductionDesired(coal.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==4) {
+                            System.out.println("Allocate how much " + resources.get(4).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(4).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                iron.setProductionDesired(iron.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==5) {
+                            System.out.println("Allocate how much " + resources.get(5).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(5).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                steel.setProductionDesired(steel.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==6) {
+                            System.out.println("Allocate how much " + resources.get(6).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(6).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                oil.setProductionDesired(oil.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==7) {
+                            System.out.println("Allocate how much " + resources.get(7).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(7).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                electronics.setProductionDesired(electronics.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        } else if (resourceDecided==8) {
+                            System.out.println("Allocate how much " + resources.get(8).getName() + " to production");
+                            productionDesired = input.nextInt();
+
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                                //subract from the maximum production space. The production amount desired
+                                maxProductionSpace -= productionDesired;
+                                //set production slots to maxproduction pace
+                                factory.setProductionSlots(maxProductionSpace);
+                                //print out the allocated amount of the resource
+                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(8).getName());
+
+                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
+                                oil.setProductionDesired(oil.getProductionDesired() + productionDesired);
+                            } else {
+                                System.out.println("Not enough factory spaces or invalid amount.");
+
+                            }
+                        }
+                        else {
+                            System.out.println("Invalid resource, try again");
                         }
                     }
-
 
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid input detected, try again");
