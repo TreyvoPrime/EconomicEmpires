@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 public class Main {
 
     public static void main(String[] args) {
-        int currentTerm = 0;
+        int currentTerm = 1;
         boolean isRunning;
         String startDecision;
         boolean gameStartPhase = true;
@@ -27,9 +27,10 @@ public class Main {
         northAmericaOceans.add("Arctic Ocean");
         Regions northAmerica = new Regions("North America", northAmericaOceans);
 
-        countries.add(new Countries("USA", 33000, 25000.0, 25000.0, northAmerica));
         //add countries to the countries ArrayList:
-        countries.add(new Countries("Mexico", 26000, 25000.0, 25000.0, northAmerica));
+        countries.add(new Countries("Canada", 17000, 12000.0, 25000.0, northAmerica));
+        countries.add(new Countries("USA", 33000, 15000.0, 25000.0, northAmerica));
+        countries.add(new Countries("Mexico", 26000, 9000.0, 25000.0, northAmerica));
         //add Buildings to the buildings ArrayList:
         buildings.add(new Buildings("Farm", 3000, "famine", "Farms produce crops and maximum supported population + a additional population growth benefit."));
         Buildings farm = buildings.get(0);
@@ -111,7 +112,8 @@ public class Main {
                 ArrayList<Boolean> oceanBoolList = new ArrayList<>(); //Boolean list to mark true/false if a port is built                     on a specific ocean's index
                 int totalBuildings = 0;
                 double tradeEfficiency = 0.0;
-                System.out.println("💵Annual GDP " + country.getGDP());
+                System.out.println("💵Annual GDP:" + country.getGDP());
+                System.out.println("🪙Treasury:" + country.getTreasury());
                 System.out.println("🌐Region " + country.getRegion().getName());
                 System.out.println("--Country Control Panel--");
                 System.out.println("1. 🔨Buildings");
@@ -274,7 +276,6 @@ public class Main {
                         System.out.println("🛢️--Managing Production--🛢️");
                         System.out.println("Max factory production " + maxProductionSpace);
                         //display all resources cost, name, revenue.
-                        for (int p=0; p < )
                         for (int r=0; r < resources.size(); r++) {
                             System.out.println(r + " " + resources.get(r).getName() + " cost: " + resources.get(r).getCost() + " base annual revenue: " + resources.get(r).getRevenue() + " 💵 ");
                         }
@@ -447,6 +448,44 @@ public class Main {
                         else {
                             System.out.println("Invalid resource, try again");
                         }
+                    } else if (decisionChoice==4) {
+                        System.out.println("Trading");
+                        System.out.println("Your regional neigbors are");
+                        for (int i=0; i < countries.size(); i++) {
+                        //print out the regions the player country borders
+                            if ("North America".equalsIgnoreCase(countries.get(i).getRegions())) {
+                                System.out.println(i + ":" + countries.get(i).getName() + " GDP - " + countries.get(i).getGDP());
+                                ArrayList<String> borderingCountries = new ArrayList<>();
+                                borderingCountries.add(countries.get(i).getName());
+                            }
+                        }
+                        System.out.println("What country would you like to trade with:");
+                        int countryTradingWith= input.nextInt();
+                        System.out.println("Trading with:" + countries.get(countryTradingWith).getName());
+                    } else if (decisionChoice==5) {
+                        System.out.println("Statistics");
+                    } else if (decisionChoice==6) {
+                        System.out.println("World Stage");
+                        
+                    } else if (decisionChoice == 7) {
+                        System.out.println("❗Next Term");
+                        currentTerm++;
+
+                        double totalRevenue = 0;
+                        //vibecoded ChatGPT, loop through to print out all the revenue from each resource
+                        for (int r = 0; r < resources.size(); r++) {
+                            double resourceRevenue = resources.get(r).getRevenue()
+                            * resources.get(r).getProductionDesired();
+
+                            totalRevenue += resourceRevenue;
+
+                            System.out.println(resources.get(r).getName()
+                            + " generated $" + resourceRevenue);
+                        }
+                        country.setTreasury(country.getTreasury() + totalRevenue);
+                        country.setGDP(country.getGDP() + totalRevenue);
+
+                        System.out.println("Total revenue from resources: $" + totalRevenue);
                     }
 
                 } catch (InputMismatchException e) {

@@ -39,4 +39,7 @@ public class Resources {
     public void setProductionDesired(int productionDesired) {
         this.productionDesired = productionDesired;
     }
+    public double calculateRevenue() {
+        return revenue * productionDesired;
+    }
 }
