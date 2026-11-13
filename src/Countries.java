@@ -6,12 +6,15 @@ public class Countries {
     private double GDP;
     private double treasury;
     private Regions region;
-    Countries(String name, int population, double GDP, double treasury, Regions regions) {
+    private  double popGrowthRate;
+    private int farmsBuilt;
+    Countries(String name, int population, double GDP, double treasury, Regions regions, double popGrowthRate) {
         this.name = name;
         this.population = population;
         this.GDP = GDP;
         this.treasury = treasury;
         this.region = regions;
+        this.popGrowthRate = popGrowthRate;
     }
 
     public String getCountriesName() {
@@ -60,7 +63,29 @@ public class Countries {
 
     public void setTreasury(double treasury) {
         this.treasury = treasury;
+       
+    }
+    public int getFarmsBuilt() {
+        return farmsBuilt;
+    }
+    
+    public int applyPopGrowth(int population, int farmsBuilt, double popGrowthRate) {
+        double adjustedGrowthRate = popGrowthRate * farmsBuilt;
+
+        this.population = (int) (population * adjustedGrowthRate);
+
+        return this.population;
+}
+   
+
+    public double getPopGrowthRate() {
+        return popGrowthRate;
     }
 
-   
+    public void setPopGrowthRate(double popGrowthRate) {
+        this.popGrowthRate = popGrowthRate;
+    }
+    public void setFarmsBuilt(int farmsBuilt) {
+        this.farmsBuilt = farmsBuilt;
+    }
 }

@@ -46,5 +46,5 @@ public class Buildings {
     public void setInformation(String information) {
         this.information = information;
     }
-
+   
 }

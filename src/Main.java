@@ -28,9 +28,9 @@ public class Main {
         Regions northAmerica = new Regions("North America", northAmericaOceans);
 
         //add countries to the countries ArrayList:
-        countries.add(new Countries("Canada", 17000, 12000.0, 25000.0, northAmerica));
-        countries.add(new Countries("USA", 33000, 15000.0, 25000.0, northAmerica));
-        countries.add(new Countries("Mexico", 26000, 9000.0, 25000.0, northAmerica));
+        countries.add(new Countries("Canada", 17000, 12000.0, 25000.0, northAmerica, 1.02));
+        countries.add(new Countries("USA", 33000, 15000.0, 25000.0, northAmerica, 1.03));
+        countries.add(new Countries("Mexico", 26000, 9000.0, 25000.0, northAmerica, 1.04));
         //add Buildings to the buildings ArrayList:
         buildings.add(new Buildings("Farm", 3000, "famine", "Farms produce crops and maximum supported population + a additional population growth benefit."));
         Buildings farm = buildings.get(0);
@@ -103,7 +103,7 @@ public class Main {
             }
 
         }
-        int farmsBuilt=0;
+        int farmsBuilt=1;
         int factoriesBuilt=0;
         if (countyBeenSelected) {
             System.out.println("Welcome Advisor, you're now in control of the economy of " + country.getCountriesName());
@@ -112,8 +112,11 @@ public class Main {
                 ArrayList<Boolean> oceanBoolList = new ArrayList<>(); //Boolean list to mark true/false if a port is built                     on a specific ocean's index
                 int totalBuildings = 0;
                 double tradeEfficiency = 0.0;
+                country.setPopulation(country.applyPopGrowth(country.getPopulation(), country.getFarmsBuilt(farmsBuilt), country.getPopGrowthRate()));
                 System.out.println("💵Annual GDP:" + country.getGDP());
                 System.out.println("🪙Treasury:" + country.getTreasury());
+                System.out.println("🥸" + country.getName() + " Population: " + country.getPopulation());
+                System.out.println(country.getPopGrowthRate());
                 System.out.println("🌐Region " + country.getRegion().getName());
                 System.out.println("--Country Control Panel--");
                 System.out.println("1. 🔨Buildings");
@@ -154,7 +157,7 @@ public class Main {
                                     if (country.getTreasury() >= farm.getCost()) {
                                         country.setTreasury(country.getTreasury() - farm.getCost());
 
-                                        farmsBuilt++;
+                                        country.setFarmsBuilt(country.getFarmsBuilt() + 1);
                                         totalBuildings++;
                                         System.out.println("Farm built:" + farmsBuilt);
                                     } else {
