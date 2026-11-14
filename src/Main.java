@@ -1,7 +1,18 @@
+/**
+ I have only used resources indicated that are allowable.
+The work submitted is my/our, and only my/our work.
+Signature: Treyvon Pearson
+Date:
+*/
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.InputMismatchException;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 public class Main {
 
     public static void main(String[] args) {
@@ -112,11 +123,10 @@ public class Main {
                 ArrayList<Boolean> oceanBoolList = new ArrayList<>(); //Boolean list to mark true/false if a port is built                     on a specific ocean's index
                 int totalBuildings = 0;
                 double tradeEfficiency = 0.0;
-                country.setPopulation(country.applyPopGrowth(country.getPopulation(), country.getFarmsBuilt(farmsBuilt), country.getPopGrowthRate()));
                 System.out.println("💵Annual GDP:" + country.getGDP());
                 System.out.println("🪙Treasury:" + country.getTreasury());
                 System.out.println("🥸" + country.getName() + " Population: " + country.getPopulation());
-                System.out.println(country.getPopGrowthRate());
+                System.out.println("📈Pop Growth Rate: " + country.getPopGrowthRate());
                 System.out.println("🌐Region " + country.getRegion().getName());
                 System.out.println("--Country Control Panel--");
                 System.out.println("1. 🔨Buildings");
@@ -135,7 +145,7 @@ public class Main {
                         boolean isBuilding = true;
                         while (isBuilding) {
                             //building control panel
-                            System.out.println(country.getName() + " currently has " + factoriesBuilt + " factories and " + farmsBuilt + " farms");
+                            System.out.println(country.getName() + " currently has " + factoriesBuilt + " factories and " + country.getFarmsBuilt() + " farms");
                             System.out.println("Current Treasury: " + country.getTreasury());
                             System.out.println("--Managing Buildings--");
                             System.out.println("0. Back to the country control panel");
@@ -159,7 +169,7 @@ public class Main {
 
                                         country.setFarmsBuilt(country.getFarmsBuilt() + 1);
                                         totalBuildings++;
-                                        System.out.println("Farm built:" + farmsBuilt);
+                                        System.out.println("Farm built:" + country.getFarmsBuilt());
                                     } else {
                                         System.out.println("Not enough money in the treasury to build another farm!");
                                         break;
@@ -185,7 +195,6 @@ public class Main {
                                         System.out.println("Not enough money in the treasury to build another factory!");
                                         break;
                                     }
-                                    maxProductionSpace = factory.setProductionSlots(factory.getProductionSlots() + factoriesBuilt);
                                 }
                             } else {
                                 System.out.println("Invalid choice, try again");
@@ -224,7 +233,7 @@ public class Main {
                                 System.out.println("Road cost - 🪙2000");
                                 System.out.println("How many roads would you like to build:");
                                 int roadsBuilding = input.nextInt();
-                                //loop to build the amount of roads requested and makes sure the player has enough money to                                 build the requestesd amount of roads.
+                                //loop to build the amount of roads requested and makes sure the player has enough money to build the requestesd amount of roads.
                                 for (int r= 0; r < roadsBuilding; r++) {
                                     if (country.getTreasury() >= road.getCost()) {
                                         country.setTreasury(country.getTreasury() - road.getCost());
@@ -282,7 +291,7 @@ public class Main {
                         for (int r=0; r < resources.size(); r++) {
                             System.out.println(r + " " + resources.get(r).getName() + " cost: " + resources.get(r).getCost() + " base annual revenue: " + resources.get(r).getRevenue() + " 💵 ");
                         }
-                        System.out.println("Select a resource to manage production");
+                        System.out.println("Select a resource to manage production, select 9 to edit the production of a resource");
                         int resourceDecided = input.nextInt();
                         int productionDesired;
                         if (resourceDecided == 0) {
@@ -293,7 +302,6 @@ public class Main {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
                                 //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(0).getName());
 
@@ -310,8 +318,6 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(1).getName());
 
@@ -328,8 +334,6 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(2).getName());
 
@@ -346,8 +350,7 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
+
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(3).getName());
 
@@ -364,8 +367,7 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
+
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(4).getName());
 
@@ -382,8 +384,7 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
+
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(5).getName());
 
@@ -400,8 +401,7 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
+
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(6).getName());
 
@@ -418,8 +418,7 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
+
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(7).getName());
 
@@ -436,8 +435,7 @@ public class Main {
                             if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
-                                factory.setProductionSlots(maxProductionSpace);
+
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(8).getName());
 
@@ -448,6 +446,52 @@ public class Main {
 
                             }
                         }
+                        //chatGPT vibecoded, specific resource production editing
+                        else if (resourceDecided == 9) {
+                            System.out.println("Which resource would you like to edit production?");
+
+                            for (int r = 0; r < resources.size(); r++) {
+                                System.out.println(r + " " + resources.get(r).getName()
+                                + " | Current Production: "
+                                + resources.get(r).getProductionDesired());
+                            }
+
+                            int resourceChoice = input.nextInt();
+
+                            if (resourceChoice >= 0 && resourceChoice < resources.size()) {
+
+                                Resources selectedResource = resources.get(resourceChoice);
+
+                                int currentProduction = selectedResource.getProductionDesired();
+
+                                System.out.println("Current production: " + currentProduction);
+                                System.out.println("Enter the NEW production amount:");
+
+                                int newProduction = input.nextInt();
+
+                                int difference = newProduction - currentProduction;
+
+                                if (newProduction >= 0 && difference <= maxProductionSpace) {
+
+                                    maxProductionSpace -= difference;
+
+                                    selectedResource.setProductionDesired(newProduction);
+
+                                    System.out.println("Production updated!");
+                                    System.out.println("New production: "
+                                    + selectedResource.getProductionDesired());
+                                    System.out.println("Remaining factory spaces: "
+                                    + maxProductionSpace);
+
+                                } else {
+                                    System.out.println("Invalid production amount or not enough factory spaces!");
+                                }
+
+                            } else {
+                                System.out.println("Invalid resource selected!");
+                            }
+                        }
+                        //end of vibe.
                         else {
                             System.out.println("Invalid resource, try again");
                         }
@@ -455,7 +499,7 @@ public class Main {
                         System.out.println("Trading");
                         System.out.println("Your regional neigbors are");
                         for (int i=0; i < countries.size(); i++) {
-                        //print out the regions the player country borders
+                            //print out the regions the player country borders
                             if ("North America".equalsIgnoreCase(countries.get(i).getRegions())) {
                                 System.out.println(i + ":" + countries.get(i).getName() + " GDP - " + countries.get(i).getGDP());
                                 ArrayList<String> borderingCountries = new ArrayList<>();
@@ -467,13 +511,43 @@ public class Main {
                         System.out.println("Trading with:" + countries.get(countryTradingWith).getName());
                     } else if (decisionChoice==5) {
                         System.out.println("Statistics");
+                        System.out.println("👥Population: " + country.getPopulation());
+                        System.out.println("💵GDP: " + country.getGDP());
+                        System.out.println("🪙treasury: " + country.getTreasury());
+                        System.out.println("🌍Region: " + country.getRegion().getName());
+                        System.out.println("🌽Farms Built:" + country.getFarmsBuilt());
+                        System.out.println("🏭Factories Built:" + factoriesBuilt);
+                        System.out.println("🧑Population Growth Rate: " + country.getPopGrowthRate());
+                        System.out.println("Would you like to print your statistics to a textfile(0) or exit statistics(1)?");
+                        int statsChoice = input.nextInt();
+                        if (statsChoice==0) {
+                            System.out.println("Printing Statistics");
+                            File statFile = new File("stats.txt");
+                            //write to the textfile called statfile
+                            try (PrintWriter writer = new PrintWriter(statFile)) {
+                                writer.println(" --Country Stats-- ");
+                                writer.println("👥 Population: " + country.getPopulation());
+                                writer.println("💵 GDP: " + country.getGDP());
+                                writer.println("🪙 Treasury: " + country.getTreasury());
+                                writer.println("🌍 Region: " + country.getRegion().getName());
+                                writer.println("🌽 Farms Built: " + country.getFarmsBuilt());
+                                writer.println("🏭 Factories Built: " + factoriesBuilt);
+                                writer.println("🧑 Population Growth Rate: " + country.getPopGrowthRate());
+                                System.out.println("Text File printed success");
+                            } catch (FileNotFoundException e) {
+                                System.out.println("Error, when writing the statistics:");
+                            }
+
+                        } else if (statsChoice==1) {
+                            System.out.println("Exited, stat viewing");
+                        }
                     } else if (decisionChoice==6) {
                         System.out.println("World Stage");
-                        
+
                     } else if (decisionChoice == 7) {
                         System.out.println("❗Next Term");
                         currentTerm++;
-
+                        country.setPopulation(country.applyPopGrowth(country.getPopulation(), country.getFarmsBuilt(), country.getPopGrowthRate()));
                         double totalRevenue = 0;
                         //vibecoded ChatGPT, loop through to print out all the revenue from each resource
                         for (int r = 0; r < resources.size(); r++) {
@@ -489,6 +563,7 @@ public class Main {
                         country.setGDP(country.getGDP() + totalRevenue);
 
                         System.out.println("Total revenue from resources: $" + totalRevenue);
+                        //end of vibecode.
                     }
 
                 } catch (InputMismatchException e) {

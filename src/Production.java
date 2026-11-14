@@ -9,6 +9,7 @@ public class Production {
         this.cost = cost;
         this.effect = effect;
         this.information = information;
+        this.productionSlots = productionSlots;
     }
 
     public String getName() {
@@ -47,8 +48,8 @@ public class Production {
         return productionSlots;
     }
 
-    public int setProductionSlots(int productionSlots) {
-        return  productionSlots;
+    public void setProductionSlots(int productionSlots) {
+        this.productionSlots = productionSlots;
     }
 
 }

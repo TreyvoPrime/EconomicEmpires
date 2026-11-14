@@ -70,11 +70,14 @@ public class Countries {
     }
     
     public int applyPopGrowth(int population, int farmsBuilt, double popGrowthRate) {
-        double adjustedGrowthRate = popGrowthRate * farmsBuilt;
 
-        this.population = (int) (population * adjustedGrowthRate);
+    double farmBonus = farmsBuilt * 0.01;
 
-        return this.population;
+    double adjustedGrowthRate = popGrowthRate + farmBonus;
+
+    this.population = (int) (population * adjustedGrowthRate);
+
+    return this.population;
 }
    
 

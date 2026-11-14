@@ -1,0 +1,8 @@
+ --Country Stats-- 
+👥 Population: 17000
+💵 GDP: 12000.0
+🪙 Treasury: 25000.0
+🌍 Region: North America
+🌽 Farms Built: 0
+🏭 Factories Built: 0
+🧑 Population Growth Rate: 1.02
