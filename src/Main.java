@@ -2,9 +2,14 @@
  I have only used resources indicated that are allowable.
 The work submitted is my/our, and only my/our work.
 Signature: Treyvon Pearson
-Date:
+Date: 11/10/26
 */
-
+/**
+ Programmer: Treyvon Pearson
+ Program's Name: Economic Empires
+ Program's Purpose: The game Economic Empires
+ Date: 11/10/26
+ */
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +28,16 @@ public class Main {
         int maxProductionSpace=0;
         Scanner input = new Scanner(System.in);
         ArrayList<Countries> countries = new ArrayList<>();
-        ArrayList<Events> events = new ArrayList<>();
         ArrayList<Buildings> buildings = new ArrayList<>();
         ArrayList<Resources> resources = new ArrayList<>();
         ArrayList<Infrastructure> infrastructures = new ArrayList<>();
         ArrayList<Production> productions = new ArrayList<>();
         ArrayList<String> northAmericaOceans = new ArrayList<>();
+        ArrayList<String> southAmericaOceans = new ArrayList<>();
+        ArrayList<String> europeOceans = new ArrayList<>();
+        ArrayList<String> africaOceans = new ArrayList<>();
+        ArrayList<String> asiaOceans = new ArrayList<>();
+        ArrayList<String> oceaniaOceans = new ArrayList<>();
 
         System.out.println("Welcome to Economic Empires");
 
@@ -36,12 +45,51 @@ public class Main {
         northAmericaOceans.add("Atlantic Ocean");
         northAmericaOceans.add("Pacific Ocean");
         northAmericaOceans.add("Arctic Ocean");
+        southAmericaOceans.add("Pacific");
+        southAmericaOceans.add("Atlantic");
+        southAmericaOceans.add("Southern");
+        europeOceans.add("Atlantic Ocean");
+        europeOceans.add("Artic Ocean");
+        africaOceans.add("Atlantic Ocean");
+        africaOceans.add("Indian Ocean");
+        africaOceans.add("Southern Ocean");
+        asiaOceans.add("Pacific Ocean");
+        asiaOceans.add("Indian Ocean");
+        asiaOceans.add("Artic Ocean");
+        oceaniaOceans.add("Southern Ocean");
+        oceaniaOceans.add("Pacific Ocean");
+        oceaniaOceans.add("Indian Ocean");
+        //add regions
         Regions northAmerica = new Regions("North America", northAmericaOceans);
-
+        Regions southAmerica = new Regions("South America", southAmericaOceans);
+        Regions europe = new Regions("Europe", europeOceans);
+        Regions asia = new Regions("Asia", asiaOceans);
+        Regions africa = new Regions("Africa", africaOceans);
+        Regions oceania = new Regions("Oceania", oceaniaOceans);
         //add countries to the countries ArrayList:
-        countries.add(new Countries("Canada", 17000, 12000.0, 25000.0, northAmerica, 1.02));
-        countries.add(new Countries("USA", 33000, 15000.0, 25000.0, northAmerica, 1.03));
-        countries.add(new Countries("Mexico", 26000, 9000.0, 25000.0, northAmerica, 1.04));
+
+        countries.add(new Countries("Canada", 17000, 0.0, 25000.0, northAmerica, 1.02));
+        countries.add(new Countries("USA", 33000, 0.0, 25000.0, northAmerica, 1.03));
+        countries.add(new Countries("Mexico", 26000, 0.0, 25000.0, northAmerica, 1.04));
+        countries.add(new Countries("Cuba", 14000, 0.0, 22000.0, northAmerica, 1.01));
+        countries.add(new Countries("Brazil", 22000, 0.0, 25000.0, southAmerica, 1.03));
+        countries.add(new Countries("Chile", 14000, 0.0, 25000.0, southAmerica, 1.03));
+        countries.add(new Countries("Argentina", 17000, 0.0, 24000.0, southAmerica, 1.02));
+        countries.add(new Countries("Colombia", 16000, 0.0, 23000.0, southAmerica, 1.03));
+        countries.add(new Countries("Germany", 18000, 0.0, 26000.0, europe, 1.02));
+        countries.add(new Countries("France", 17000, 0.0, 25000.0, europe, 1.03));
+        countries.add(new Countries("United Kingdom", 17000, 0.0, 25000.0, europe, 1.02));
+        countries.add(new Countries("Italy", 16000, 0.0, 24000.0, europe, 1.02));
+        countries.add(new Countries("China", 34000, 0.0, 25000.0, asia, 1.03));
+        countries.add(new Countries("India", 35000, 0.0, 25000.0, asia, 1.04));
+        countries.add(new Countries("Japan", 20000, 0.0, 26000.0, asia, 1.02));
+        countries.add(new Countries("South Korea", 16000, 0.0, 24000.0, asia, 1.02));
+        countries.add(new Countries("Nigeria", 25000, 0.0, 23000.0, africa, 1.04));
+        countries.add(new Countries("South Africa", 17000, 0.0, 24000.0, africa, 1.03));
+        countries.add(new Countries("Egypt", 19000, 0.0, 24000.0, africa, 1.03));
+        countries.add(new Countries("Australia", 18000, 0.0, 25000.0, oceania, 1.02));
+        countries.add(new Countries("New Zealand", 13000, 0.0, 23000.0, oceania, 1.02));
+
         //add Buildings to the buildings ArrayList:
         buildings.add(new Buildings("Farm", 3000, "famine", "Farms produce crops and maximum supported population + a additional population growth benefit."));
         Buildings farm = buildings.get(0);
@@ -65,12 +113,19 @@ public class Main {
         Resources steel = resources.get(5);
         Resources oil = resources.get(6);
         Resources electronics = resources.get(7);
+        //country production nested ArrayList, found from StackOverflow. creates a sepearated list of used resources from each country.
+        ArrayList<ArrayList<Resources>> countryProduction = new ArrayList<>();
+
+        for (int i = 0; i < countries.size(); i++) {
+            countryProduction.add(new ArrayList<Resources>());
+        }
+
         //add infrastructure to infrastructures ArrayList
-        infrastructures.add(new Infrastructure("Road", 2000.0, 1.0));
-        infrastructures.add(new Infrastructure("Port", 2000.0, 1.0));
+        infrastructures.add(new Infrastructure("Road", 3000.0, 1.0));
+        infrastructures.add(new Infrastructure("Port", 20000.0, 1.0));
         Infrastructure road = infrastructures.get(0);
         Infrastructure port = infrastructures.get(1);
-
+        //decision to start the game.
         while (gameStartPhase) {
             System.out.println("Start the game Y/N:");
             startDecision = input.nextLine().toUpperCase().trim();
@@ -91,15 +146,40 @@ public class Main {
         //returns the number of countries currently stored in the ArrayList
         for (int i=0; i < countries.size(); i++) {
             //get the index of the country inside the countries ArrayList and then retrieve the name of the index of the current country
-            System.out.println(i + ": " + countries.get(i).getCountriesName());
+            System.out.println(i + ": " + countries.get(i).getCountriesName() + " - " + countries.get(i).getRegion().getName());
         }
-        int choice = input.nextInt();
+
+        int choice = -1;
+        Countries country = null;
+        //error checking, to make sure user inputs a number or is in index range when selecting a country
+        while (country == null) {
+            try {
+                System.out.println("Select your country:");
+                choice = input.nextInt();
+                country = countries.get(choice);
+
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("Invalid country index! Try again.");
+
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter a number!");
+                input.nextLine();
+            }
+        }
+
         //get the country classs, and assign the player chosen country as the object to be used.
-        Countries country = countries.get(choice);
+        countryProduction.set(choice, resources);
         boolean countriesSelection = true;
         boolean countyBeenSelected = false;
         boolean gameRunning = true;
-        ArrayList<String> oceans = country.getRegion().getOceans(); //Arraylist declared to get the oceans that border a country
+        //Arraylist declared to get the oceans that border a country
+        ArrayList<String> oceans = country.getRegion().getOceans();
+        //Boolean list to mark true/false if a port is built  on a specific ocean's index
+        ArrayList<Boolean> oceanBoolList = new ArrayList<>();
+        //set everything in the Arraylist to false
+        for (int i = 0; i < oceans.size(); i++) {
+            oceanBoolList.add(false);
+        }
         //country selected error checking and output
         while (countriesSelection) {
             try {
@@ -116,18 +196,19 @@ public class Main {
         }
         int farmsBuilt=1;
         int factoriesBuilt=0;
+        int roadsBuilt = 0;
         if (countyBeenSelected) {
             System.out.println("Welcome Advisor, you're now in control of the economy of " + country.getCountriesName());
+            double tradeEfficiency = 1.0;
+
             while (gameRunning) {
                 //country control panel used as the base menu throughout the game
-                ArrayList<Boolean> oceanBoolList = new ArrayList<>(); //Boolean list to mark true/false if a port is built                     on a specific ocean's index
                 int totalBuildings = 0;
-                double tradeEfficiency = 0.0;
-                System.out.println("💵Annual GDP:" + country.getGDP());
-                System.out.println("🪙Treasury:" + country.getTreasury());
-                System.out.println("🥸" + country.getName() + " Population: " + country.getPopulation());
-                System.out.println("📈Pop Growth Rate: " + country.getPopGrowthRate());
-                System.out.println("🌐Region " + country.getRegion().getName());
+                System.out.println("💵Annual GDP: " + country.getGDP()); //total revenue per turn the player country generates
+                System.out.println("🪙Treasury: " + country.getTreasury()); //treasury(total money) the country has
+                System.out.println("🥸" + country.getName() + " Population: " + country.getPopulation()); //population of the player  country
+                System.out.println("📈Pop Growth Rate: " + country.getPopGrowthRate()); //growth rate of the player country
+                System.out.println("🌐Region: " + country.getRegion().getName()); //region name of the player country
                 System.out.println("--Country Control Panel--");
                 System.out.println("1. 🔨Buildings");
                 System.out.println("2. 🛣️Infrastructure");
@@ -157,7 +238,7 @@ public class Main {
                             if (buildingChoice==0) {
                                 System.out.println("Exited building management");
                                 isBuilding=false;
-                                //farms:building
+                                //building farms
                             } else if (buildingChoice==1) {
 
                                 System.out.print("🌽How many farms would you like to build:");
@@ -168,6 +249,7 @@ public class Main {
                                         country.setTreasury(country.getTreasury() - farm.getCost());
 
                                         country.setFarmsBuilt(country.getFarmsBuilt() + 1);
+                                        country.setPopGrowthRate(country.getPopGrowthRate() + 0.01);
                                         totalBuildings++;
                                         System.out.println("Farm built:" + country.getFarmsBuilt());
                                     } else {
@@ -175,7 +257,7 @@ public class Main {
                                         break;
                                     }
                                 }
-                                //factories:building
+                                //building farms
                             } else if (buildingChoice==2) {
 
                                 System.out.println("🏭How many factories would you like to build:");
@@ -207,7 +289,6 @@ public class Main {
                         boolean infrastructureManaged = true;
                         //management panel for infrastructure
                         while (infrastructureManaged) {
-                            int roadsBuilt = 0;
                             System.out.println("Roads built " + roadsBuilt);
                             System.out.println(country.getCountriesName() + " Trade efficientcy:" + tradeEfficiency);
                             System.out.println(country.getCountriesName() + "--Martime trade access--");
@@ -239,7 +320,7 @@ public class Main {
                                         country.setTreasury(country.getTreasury() - road.getCost());
 
                                         roadsBuilt++;
-                                        tradeEfficiency++;
+                                        tradeEfficiency += 0.01;
                                     }
                                     else {
                                         System.out.println("Not enough money in the treasury to build another road!");
@@ -247,18 +328,19 @@ public class Main {
                                     }
                                 }
                                 System.out.println("🛣️built +:" + roadsBuilt + " roads");
+                                //ports, ports are built to trade with other countries in other regions.
                             } else if (infrastructureChoice==2) {
                                 System.out.println("--Port Investments--");
                                 System.out.println("Building a port, adjacent to an ocean your country borders, gives you access to international markets that borders the specific ocean.");
                                 System.out.println("Port building cost - 🪙20000");
                                 System.out.println("The oceans" + country.getName() + "borders");
                                 for (int i = 0; i < oceans.size(); i++) {
-                                    System.out.println(i + "⚓ " + oceans.get(i));
+                                    System.out.println(i + " ⚓ " + oceans.get(i));
                                 }
                                 System.out.print("What ocean to build port on:");
                                 //the index of the oceanDecided
                                 int oceanDecided = input.nextInt();
-                                if (oceanDecided <= oceans.size()) {
+                                if (oceanDecided >= 0 && oceanDecided < oceans.size()) {
                                     //check to see if player's country has enough treasury.
                                     if (country.getTreasury() >= port.getCost()) {
                                         //make sure the ocean decided is in
@@ -275,10 +357,10 @@ public class Main {
                                         System.out.println("❌Not enough money in the treasury");
                                     }
                                 } else {
-                                    System.out.println("Invalid Index selected, try again:");
+                                    System.out.println("Invalid Index selected, try again");
                                 }
-
-
+                            } else {
+                                System.out.println("Invalid choice, try again");
                             }
 
                         }
@@ -287,35 +369,38 @@ public class Main {
 
                         System.out.println("🛢️--Managing Production--🛢️");
                         System.out.println("Max factory production " + maxProductionSpace);
+                        //display treasury of country
+                        System.out.println(country.getCountriesName() + " Treasury: " + country.getTreasury());
                         //display all resources cost, name, revenue.
                         for (int r=0; r < resources.size(); r++) {
                             System.out.println(r + " " + resources.get(r).getName() + " cost: " + resources.get(r).getCost() + " base annual revenue: " + resources.get(r).getRevenue() + " 💵 ");
                         }
-                        System.out.println("Select a resource to manage production, select 9 to edit the production of a resource");
+                        System.out.println("Select a resource to manage production, select 8 to edit the production of a resource");
                         int resourceDecided = input.nextInt();
                         int productionDesired;
                         if (resourceDecided == 0) {
                             System.out.println("Allocate how much " + resources.get(0).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= wood.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
-                                //set production slots to maxproduction pace
                                 //print out the allocated amount of the resource
                                 System.out.println("Allocated: " + productionDesired + " production to " + resources.get(0).getName());
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 wood.setProductionDesired(wood.getProductionDesired() + productionDesired);
+                                //subtract the cost of the resource from the treasury
+                                country.setTreasury(country.getTreasury() - wood.getCost());
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided== 1) {
                             System.out.println("Allocate how much " + resources.get(1).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= textiles.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
                                 //print out the allocated amount of the resource
@@ -323,15 +408,17 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 textiles.setProductionDesired(textiles.getProductionDesired() + productionDesired);
+                                country.setTreasury(country.getTreasury() - textiles.getCost());
+
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided==2) {
                             System.out.println("Allocate how much " + resources.get(2).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= stone.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
                                 //print out the allocated amount of the resource
@@ -339,15 +426,16 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 stone.setProductionDesired(stone.getProductionDesired() + productionDesired);
+                                country.setTreasury(country.getTreasury() - stone.getCost());
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided==3) {
                             System.out.println("Allocate how much " + resources.get(3).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= coal.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
 
@@ -356,15 +444,17 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 coal.setProductionDesired(coal.getProductionDesired() + productionDesired);
+                                country.setTreasury(country.getTreasury() - coal.getCost());
+
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided==4) {
                             System.out.println("Allocate how much " + resources.get(4).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= iron.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
 
@@ -373,15 +463,17 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 iron.setProductionDesired(iron.getProductionDesired() + productionDesired);
+                                country.setTreasury(country.getTreasury() - iron.getCost());
+
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided==5) {
                             System.out.println("Allocate how much " + resources.get(5).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= steel.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
 
@@ -390,15 +482,17 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 steel.setProductionDesired(steel.getProductionDesired() + productionDesired);
+                                country.setTreasury(country.getTreasury() - steel.getCost());
+
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided==6) {
                             System.out.println("Allocate how much " + resources.get(6).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= oil.getCost() ) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
 
@@ -407,15 +501,17 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 oil.setProductionDesired(oil.getProductionDesired() + productionDesired);
+                                country.setTreasury(country.getTreasury() - oil.getCost());
+
                             } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                System.out.println("Not enough factory spaces, not enough money in treasury, or invalid amount.");
 
                             }
                         } else if (resourceDecided==7) {
                             System.out.println("Allocate how much " + resources.get(7).getName() + " to production");
                             productionDesired = input.nextInt();
 
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
+                            if (productionDesired > 0 && productionDesired <= maxProductionSpace && country.getTreasury() >= electronics.getCost()) {
                                 //subract from the maximum production space. The production amount desired
                                 maxProductionSpace -= productionDesired;
 
@@ -424,30 +520,15 @@ public class Main {
 
                                 System.out.println("Remaining factory spaces: " + maxProductionSpace);
                                 electronics.setProductionDesired(electronics.getProductionDesired() + productionDesired);
-                            } else {
-                                System.out.println("Not enough factory spaces or invalid amount.");
+                                country.setTreasury(country.getTreasury() - electronics.getCost());
 
-                            }
-                        } else if (resourceDecided==8) {
-                            System.out.println("Allocate how much " + resources.get(8).getName() + " to production");
-                            productionDesired = input.nextInt();
-
-                            if (productionDesired > 0 && productionDesired <= maxProductionSpace) {
-                                //subract from the maximum production space. The production amount desired
-                                maxProductionSpace -= productionDesired;
-
-                                //print out the allocated amount of the resource
-                                System.out.println("Allocated: " + productionDesired + " production to " + resources.get(8).getName());
-
-                                System.out.println("Remaining factory spaces: " + maxProductionSpace);
-                                oil.setProductionDesired(oil.getProductionDesired() + productionDesired);
                             } else {
                                 System.out.println("Not enough factory spaces or invalid amount.");
 
                             }
                         }
                         //chatGPT vibecoded, specific resource production editing
-                        else if (resourceDecided == 9) {
+                        else if (resourceDecided == 8) {
                             System.out.println("Which resource would you like to edit production?");
 
                             for (int r = 0; r < resources.size(); r++) {
@@ -495,24 +576,23 @@ public class Main {
                         else {
                             System.out.println("Invalid resource, try again");
                         }
-                    } else if (decisionChoice==4) {
-                        System.out.println("Trading");
-                        System.out.println("Your regional neigbors are");
-                        for (int i=0; i < countries.size(); i++) {
-                            //print out the regions the player country borders
-                            if ("North America".equalsIgnoreCase(countries.get(i).getRegions())) {
-                                System.out.println(i + ":" + countries.get(i).getName() + " GDP - " + countries.get(i).getGDP());
-                                ArrayList<String> borderingCountries = new ArrayList<>();
-                                borderingCountries.add(countries.get(i).getName());
-                            }
-                        }
-                        System.out.println("What country would you like to trade with:");
-                        int countryTradingWith= input.nextInt();
-                        System.out.println("Trading with:" + countries.get(countryTradingWith).getName());
+                    }//vibecoded, Trading class method calling
+                    else if (decisionChoice == 4) {
+
+                        Trading.trade(
+                        input, 
+                        countries, 
+                        choice, 
+                        resources, 
+                        oceanBoolList, 
+                        tradeEfficiency, 
+                        countryProduction
+                    );
+
                     } else if (decisionChoice==5) {
                         System.out.println("Statistics");
                         System.out.println("👥Population: " + country.getPopulation());
-                        System.out.println("💵GDP: " + country.getGDP());
+                        System.out.println("💵Annual GDP: " + country.getGDP());
                         System.out.println("🪙treasury: " + country.getTreasury());
                         System.out.println("🌍Region: " + country.getRegion().getName());
                         System.out.println("🌽Farms Built:" + country.getFarmsBuilt());
@@ -540,10 +620,31 @@ public class Main {
 
                         } else if (statsChoice==1) {
                             System.out.println("Exited, stat viewing");
+                        } else {
+                            System.out.println("Invalid Choice selected, try again");
                         }
                     } else if (decisionChoice==6) {
                         System.out.println("World Stage");
+                        double worldGDP =0;
+                        for (int i=0; i < countries.size(); i++) {
+                            worldGDP = worldGDP + countries.get(i).getGDP();
+                        }
+                        ArrayList<Countries> countryRankings = new ArrayList<>(countries);
+                        //vibecoded, this line of code to rank all the countries in the world
+                        countryRankings.sort((a, b) -> Double.compare(b.getGDP(), a.getGDP()));
+                        //end of vibecode
+                        System.out.println("Worlds Total GDP: " + worldGDP);
+                        for (int i=0; i < countryRankings.size(); i++) {
+                            Countries rankedCountry = countryRankings.get(i);
+                            double percentage = 0;
+                            if (worldGDP > 0) {
+                                percentage = (rankedCountry.getGDP() / worldGDP) * 100;
+                            }
+                            percentage = Math.round(percentage * 100.0) / 100.0;
+                            //print out attributes of all country GDP, and the percentage they make up of world GDP
+                            System.out.println(i + 1 + "- " + rankedCountry.getName() + " 💵GDP: " + rankedCountry.getGDP() + " controls " + percentage + " 🌍of the worlds GDP ");
 
+                        }
                     } else if (decisionChoice == 7) {
                         System.out.println("❗Next Term");
                         currentTerm++;
@@ -559,11 +660,24 @@ public class Main {
                             System.out.println(resources.get(r).getName()
                             + " generated $" + resourceRevenue);
                         }
-                        country.setTreasury(country.getTreasury() + totalRevenue);
-                        country.setGDP(country.getGDP() + totalRevenue);
-
+                        //tax revenue from population
+                        double taxRevenue = country.getPopulation() / 100.0;
+                        //add the totalRevenue made from resources to the players treasury.
+                        country.setTreasury(country.getTreasury() + totalRevenue + taxRevenue);
+                        //set the total revenue to the GDP
+                        country.setGDP(totalRevenue + taxRevenue);
                         System.out.println("Total revenue from resources: $" + totalRevenue);
+                        //run the AI turn.
+                        AI.aiTurn(countries, resources, countryProduction, choice);
+                        //run the trading
+                        Trading.processTurn(countries, choice, resources, countryProduction, tradeEfficiency);
+
+                        if (currentTerm >= 10 && Victory.check(countries, countryProduction)) {
+                            gameRunning = false;
+                        }
                         //end of vibecode.
+                    } else {
+                        System.out.println("Invalid Choice, please try again");
                     }
 
                 } catch (InputMismatchException e) {

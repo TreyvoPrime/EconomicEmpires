@@ -1,33 +1,40 @@
-public class Infrastructure {
-    String name;
-    double cost;
-    double tradeEfficiencyBenefit;
+
+public class Infrastructure extends Buildings {
+
+    private double tradeEfficiencyBenefit;
+    /**
+     * Creates an infrastructure using the given name, cost, trade efficiency benefit.
+     *
+     * @param name the name (text)
+     * @param cost the cost (number)
+     * @param tradeEfficiencyBenefit the trade efficiency benefit (number)
+     */
     Infrastructure(String name, double cost, double tradeEfficiencyBenefit) {
-        this.name = name;
-        this.cost = cost;
+        super(name, cost, "Trade Efficiency", "Infrastructure improves trading.");
         this.tradeEfficiencyBenefit = tradeEfficiencyBenefit;
     }
 
-    public String getName() {
-        return name;
+    // Overriding a method from Buildings
+    @Override
+    /**
+     * Returns the information.
+     * @return the information about a infrastructure
+     */
+    public String getInformation() {
+        return super.getInformation() + " Trade efficiency benefit: " + tradeEfficiencyBenefit;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
+    /**
+     * Returns the trade efficiency benefit.
+     * @return the trade benefit of a instrastructure
+     */
     public double getTradeEfficiencyBenefit() {
         return tradeEfficiencyBenefit;
     }
-
+    /**
+     * Sets the trade efficiency benefit to the given trade efficiency benefit.
+     *
+     * @param tradeEfficiencyBenefit the trade efficiency benefit (number)
+     */
     public void setTradeEfficiencyBenefit(double tradeEfficiencyBenefit) {
         this.tradeEfficiencyBenefit = tradeEfficiencyBenefit;
     }
