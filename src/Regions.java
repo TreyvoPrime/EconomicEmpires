@@ -1,3 +1,6 @@
+/**
+* The regions class breaks the countries into economic regions. Countries in the same region do not require a port to trade with each other.
+**/
 import java.util.ArrayList;
 public class Regions {
     private String name;
