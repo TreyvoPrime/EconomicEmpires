@@ -1,6 +1,6 @@
 /**
-*The production class includes buildings that involve economic productions
-*/
+*Infrastructure class includes buildings that involve supporting the country's efficiency and trade access.
+**/
 public class Infrastructure extends Buildings {
 
     private double tradeEfficiencyBenefit;
