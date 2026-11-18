@@ -1,3 +1,7 @@
+/**
+*The production class includes buildings that involve economic productions
+*
+*/
 public class Production {
     private String name;
     private double cost;
