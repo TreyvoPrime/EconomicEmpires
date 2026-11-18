@@ -1,6 +1,9 @@
 
 // ChatGPT vibecoded, AI system for all the other countries in the game
-
+/**
+* The AI class Controls all other countries that the player does not control. 
+* Choosing what the ai does each turn such as having a chance to build up to 2 factories per turn.
+*/
 import java.util.ArrayList;
 import java.util.Random;
 
