@@ -1,3 +1,6 @@
+/**
+* Resources class includes all the resources that can be produced by factories.
+**/
 public class Resources {
     private String name;
     private double cost;
