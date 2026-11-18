@@ -1,3 +1,7 @@
+/**
+*The buildings class contains the attributes of every building. Buildings are used to help provide the necesities needed 
+* to  improve a countries economy.
+*/
 public class Buildings {
     private String name;
     private double cost;
