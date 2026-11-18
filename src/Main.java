@@ -10,6 +10,9 @@ Date: 11/10/26
  Program's Purpose: The game Economic Empires
  Date: 11/10/26
  */
+/**
+* Main class runs and puts together the entire program
+*/
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
