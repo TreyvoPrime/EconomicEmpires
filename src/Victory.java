@@ -1,4 +1,7 @@
-//vibecoded ChatGPT, Victory class for controlling over 50 percent of world GDP
+/**
+* Victory class used to calculate if a country has achieved conditions for a victory and print out the victory message.
+**/
+//vibecoded ChatGPT, Victory class for controlling over 25 percent of world GDP
 import java.util.ArrayList;
 
 public class Victory {
