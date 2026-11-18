@@ -1,7 +1,9 @@
-
+/**
+* Class for the trading system in Economic Empires.
+**/
 import java.util.ArrayList;
 import java.util.Scanner;
-// ChatGPT vibecoded: Trading class I added the emojis, and changed around some output text. Modified to also print out the region with the countrie being listed. 
+// ChatGPT vibecoded this class completely: Trading class I added the emojis, and changed around some output text. Modified to also print out the region with the countrie being listed. 
 public class Trading {
 
     static ArrayList<Integer> partners = new ArrayList<>();
