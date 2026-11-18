@@ -1,3 +1,7 @@
+/**
+* Countries class includes all the atributes a country needs to operate.
+* Countries can interact with each other via trading especially when they are in the same region.
+*/
 import java.util.ArrayList;
 import java.util.List;
 public class Countries {
